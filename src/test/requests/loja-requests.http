@@ -1,0 +1,33 @@
+###
+GET http://localhost:9000/api/v1/loja
+
+<> 2021-04-20T183423.200.json
+
+###
+GET http://localhost:9000/api/v1/loja/cnpj?cnpj=42.154.028/0001-23
+
+###
+GET http://localhost:9000/api/v1/loja/607f4a39b97f786998e9d861
+
+###
+POST http://localhost:9000/api/v1/loja
+Content-Type: application/json
+
+{
+  "nome": "Disney Fantasias",
+  "cnpj": "42.154.028/0001-23",
+  "localizacao": {
+    "coordinates": [
+      5.554124,
+      -32.48544
+    ]
+  },
+  "endereco": {
+    "cep": "59149-363",
+    "logradouro": "Rua Aeroporto de Alcântara",
+    "numero": "172",
+    "uf": "RN",
+    "cidade": "Parnamirim",
+    "bairro": "Emaús"
+  }
+}
