@@ -5,7 +5,7 @@ GET 192.168.0.107:9000/api/v1/cliente
 GET 192.168.0.107:9000/api/v1/cliente/607f2b72e135792244fca76a
 
 ###
-GET 192.168.0.107:9000/api/v1/cliente/cpf?cpf=118.227.644-08
+GET 192.168.0.107:9000/api/v1/cliente/cpf?cpf=927.020.600-99
 
 ###
 POST 192.168.0.107:9000/api/v1/cliente
@@ -13,17 +13,17 @@ Content-Type: application/json
 
 {
   "id": "607f2b72e135792244fca76a",
-  "nome": "Aroldo Felix Pereira Junior",
-  "cpf": "118.227.644-08",
+  "nome": "Aroldo Felix",
+  "cpf": "927.020.600-99",
   "dataNascimento": "1997-11-26T18:52:19.187+00:00",
   "dataCriacao": "2021-04-20T19:33:28.380+00:00",
   "dataUltimaEdicao": "2021-04-20T19:33:28.380+00:00",
   "endereco": {
-    "cep": "59149-363",
-    "logradouro": "Rua Aeroporto de Alcântara",
-    "numero": "172",
+    "cep": "59149-366",
+    "logradouro": "Rua Filipinas de Maceio",
+    "numero": "148",
     "uf": "RN",
-    "cidade": "Parnamirim",
-    "bairro": "Emaús"
+    "cidade": "Macaíba",
+    "bairro": "Algum bairro de lá"
   }
 }
