@@ -1,0 +1,15 @@
+###
+GET 192.168.0.107:9000/api/v1/fantasia
+
+###
+GET 192.168.0.107:9000/api/v1/fantasia/607f54db4958d820ab5a1569
+
+###
+POST 192.168.0.107:9000/api/v1/fantasia
+Content-Type: application/json
+
+{
+  "descricao": "Homem de Ferro",
+  "tamanho": "P",
+  "classificacao": "INFANTIL"
+}
