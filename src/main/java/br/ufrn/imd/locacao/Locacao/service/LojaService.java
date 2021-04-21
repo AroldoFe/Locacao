@@ -1,5 +1,7 @@
 package br.ufrn.imd.locacao.Locacao.service;
 
+import br.ufrn.imd.locacao.Locacao.domain.Estoque;
+import br.ufrn.imd.locacao.Locacao.domain.Fantasia;
 import br.ufrn.imd.locacao.Locacao.domain.Loja;
 import br.ufrn.imd.locacao.Locacao.exception.BusinessRuleException;
 import br.ufrn.imd.locacao.Locacao.repository.LojaRepository;
@@ -12,15 +14,23 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class LojaService {
     private final LojaRepository lojaRepository;
     private final EnderecoService enderecoService;
+    private final EstoqueService estoqueService;
 
     public List<Loja> findAll() {
         return this.lojaRepository.findAll();
+    }
+
+    public List<Loja> findAllContainsFantasia(Fantasia fantasia) {
+        List<Estoque> estoques = this.estoqueService.findByFantasia(fantasia);
+
+        return estoques.stream().map(Estoque::getLoja).collect(Collectors.toList());
     }
 
     public Loja findById(String id) {

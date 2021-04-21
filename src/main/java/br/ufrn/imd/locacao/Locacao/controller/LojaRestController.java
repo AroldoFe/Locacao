@@ -1,5 +1,6 @@
 package br.ufrn.imd.locacao.Locacao.controller;
 
+import br.ufrn.imd.locacao.Locacao.domain.Fantasia;
 import br.ufrn.imd.locacao.Locacao.domain.Loja;
 import br.ufrn.imd.locacao.Locacao.exception.BusinessRuleException;
 import br.ufrn.imd.locacao.Locacao.service.LojaService;
@@ -18,6 +19,11 @@ public class LojaRestController {
     @GetMapping
     public List<Loja> getAll() {
         return this.lojaService.findAll();
+    }
+
+    @GetMapping(path = {"/fantasias"})
+    public List<Loja> findAllContainsFantasia(@RequestParam("fantasia") Fantasia fantasia) {
+        return this.lojaService.findAllContainsFantasia(fantasia);
     }
 
     @GetMapping(path = "/{id}")

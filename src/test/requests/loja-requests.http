@@ -10,6 +10,9 @@ GET http://localhost:9000/api/v1/loja/cnpj?cnpj=42.154.028/0001-23
 GET http://localhost:9000/api/v1/loja/607f4a39b97f786998e9d861
 
 ###
+GET http://localhost:9000/api/v1/loja/fantasias?fantasia=607f55544958d820ab5a156b
+
+###
 POST http://localhost:9000/api/v1/loja
 Content-Type: application/json
 
