@@ -1,5 +1,6 @@
 package br.ufrn.imd.locacao.Locacao.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Document
 @Getter
 @Setter
+@EqualsAndHashCode(of = {"id"})
 public class Loja {
     @Id
     private String id;

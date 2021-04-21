@@ -4,22 +4,23 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document
 @Getter
 @Setter
 @EqualsAndHashCode(of = {"id"})
-public class Fantasia {
+public class Estoque {
     @Id
     private String id;
-    private String descricao;
 
-    private TipoTamanho tamanho;
-    private TipoClassificacao classificacao;
+    @DBRef
+    private Loja loja;
 
-    private Date dataCriado = new Date();
-    private Date dataUltimaEdicao = new Date();
+    @DBRef
+    private List<Fantasia> fantasias = new ArrayList<>();
 }

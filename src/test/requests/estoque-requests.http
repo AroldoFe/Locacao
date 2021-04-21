@@ -1,0 +1,5 @@
+###
+GET http://localhost:9000/api/v1/estoque?loja=607f5225c55a3766adc0677d
+
+###
+POST http://localhost:9000/api/v1/estoque/addFantasia?loja=607f5225c55a3766adc0677d&fantasia=607f55544958d820ab5a156b
