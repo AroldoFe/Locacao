@@ -29,5 +29,6 @@ public class Aluguel {
     private Double total;
 
     private Date dataAluguel;
+    private Date dataMaximaDevolucao;
     private Date dataDevolucao;
 }
