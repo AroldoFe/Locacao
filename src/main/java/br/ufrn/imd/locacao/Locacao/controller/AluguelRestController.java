@@ -19,13 +19,13 @@ public class AluguelRestController {
     @GetMapping("/cliente")
     public List<Aluguel> findAllByCliente(@RequestParam("cpf") String cpf) { return this.aluguelService.buscarTodosPorClientes(cpf);}
 
-    @GetMapping("/cliente/naoDevolvido")
+    @GetMapping("/clienteNaoDevolvido")
     public List<Aluguel> findByClienteAndNotDevolucao(@RequestParam("cpf") String cpf) { return this.aluguelService.buscarPorClientesENaoDevolvidos(cpf);}
 
     @GetMapping("/loja")
     public List<Aluguel> findAllByLoja(@RequestParam("cnpj") String cnpj) { return this.aluguelService.buscarTodosPorLojas(cnpj);}
 
-    @GetMapping("/loja/naoDevolvidos")
+    @GetMapping("/lojaNaoDevolvidos")
     public List<Aluguel> findByLojaAndNotDevolucao(@RequestParam("cnpj") String cnpj) { return this.aluguelService.buscarPorLojasENaoDevolvidos(cnpj);}
 
     @PostMapping("/alugar")

@@ -6,14 +6,18 @@ import br.ufrn.imd.locacao.Locacao.exception.BusinessRuleException;
 import br.ufrn.imd.locacao.Locacao.repository.AluguelRepository;
 import br.ufrn.imd.locacao.Locacao.utils.ValidatorUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DecimalFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +57,43 @@ public class AluguelService {
         return  this.aluguelRepository.findAllByLojaAndDataDevolucaoIsNotNullOrderByDataAluguel(loja);
     }
 
+    public Double valorGastoTotalDaLoja(String cnpj) {
+        List<Aluguel> listaAlugueis = this.buscarTodosPorLojas(cnpj);
+        return Double.valueOf(new DecimalFormat("#.##").format(listaAlugueis.stream().mapToDouble(Aluguel::getTotal).sum()));
+    }
+
+    public Double valorGastoPendenteDaLoja(String cnpj) {
+        List<Aluguel> listaAlugueis = this.buscarPorLojasENaoDevolvidos(cnpj);
+        return Double.valueOf(new DecimalFormat("#.##").format(listaAlugueis.stream().mapToDouble(Aluguel::getTotal).sum()));
+    }
+
+    public Double valorGastoDevolvidoDaLoja(String cnpj) {
+        List<Aluguel> listaAlugueis = this.buscarPorLojasEDevolvidos(cnpj);
+        return Double.valueOf(new DecimalFormat("#.##").format(listaAlugueis.stream().mapToDouble(Aluguel::getTotal).sum()));
+    }
+
+    public Map<Loja, Double> valorGastoTotalDoCliente(String cpf) {
+        List<Aluguel> listaAlugueis = this.buscarTodosPorClientes(cpf);
+        return listaAlugueis.stream().collect(
+                Collectors.groupingBy(Aluguel::getLoja, Collectors.summingDouble(Aluguel::getTotal)));
+
+    }
+
+    public Map<Loja, Double> valorGastoPendenteDoCliente(String cpf) {
+        List<Aluguel> listaAlugueis = this.buscarPorClientesENaoDevolvidos(cpf);
+        return listaAlugueis.stream().collect(
+                Collectors.groupingBy(Aluguel::getLoja, Collectors.summingDouble(Aluguel::getTotal))
+        );
+    }
+
+    public Map<Loja, Double> valorGastoDevolvidoDoCliente(String cpf) {
+        List<Aluguel> listaAlugueis = this.buscarPorClientesEDevolvidos(cpf);
+        return listaAlugueis.stream().collect(
+                Collectors.groupingBy(Aluguel::getLoja, Collectors.summingDouble(Aluguel::getTotal))
+        );
+    }
+
+
     @Transactional
     public Aluguel salvar(Aluguel aluguel) throws BusinessRuleException {
         Estoque estoqueLojaFantasia = this.estoqueService.findByLoja(aluguel.getLoja());
@@ -69,28 +110,34 @@ public class AluguelService {
 
         this.validarAluguel(aluguel);
         aluguel.setDataDevolucao(null);
-        aluguel.setTotal(aluguel.getValor() * (1 + aluguel.getPagamento().getJuros()));
+        aluguel.setTotal(Double.valueOf(new DecimalFormat("#.##")
+                .format(aluguel.getValor() * (1 + aluguel.getPagamento().getJuros())))
+        );
 
         return this.aluguelRepository.save(aluguel);
     }
 
     @Transactional
     public Aluguel devolver(DevolucaoDTO devolucaoDTO) throws BusinessRuleException {
-        if (this.aluguelRepository.findById(devolucaoDTO.getIdAluguel()).isPresent()) {
-            throw new BusinessRuleException("Não foi localizado essa locação");
-        }
-
-        Aluguel aluguel = this.aluguelRepository.findById(devolucaoDTO.getIdAluguel()).get();
+        Aluguel aluguel = this.aluguelRepository.findById(devolucaoDTO.getIdAluguel())
+                .orElseThrow(() -> new ResourceNotFoundException("Locação não encontrado"));
 
         this.validarDevolucao(devolucaoDTO, aluguel);
         aluguel.setSituacaoPagamento(TipoSituacaoPagamento.PAGO);
 
+        long qtdDiasDiferencaoNormal = ChronoUnit.DAYS.between(
+                aluguel.getDataAluguel().toInstant(),
+                devolucaoDTO.getDataDevolucao().toInstant());
+        aluguel.setTotal(aluguel.getTotal() * qtdDiasDiferencaoNormal);
+
         if (devolucaoDTO.getDataDevolucao().after(aluguel.getDataMaximaDevolucao())) {
-            long qtdDiasDiferenca = ChronoUnit.DAYS.between(
+            long qtdDiasDiferencaJuros = ChronoUnit.DAYS.between(
                     aluguel.getDataMaximaDevolucao().toInstant(),
                     devolucaoDTO.getDataDevolucao().toInstant());
-            aluguel.setTotal(aluguel.getTotal() + (aluguel.getValor() * (qtdDiasDiferenca * 0.1)));
+            aluguel.setTotal(aluguel.getTotal() + (aluguel.getValor() * (qtdDiasDiferencaJuros * 0.1)));
         }
+
+        aluguel.setTotal(Double.valueOf(new DecimalFormat("#.##").format(aluguel.getTotal())));
 
         aluguel.setDataDevolucao(devolucaoDTO.getDataDevolucao());
 

@@ -1,5 +1,5 @@
 ###
-GET http://localhost:9000/api/v1/loja
+GET http://localhost:8080/api/v1/loja
 
 <> 2021-04-20T183423.200.json
 
@@ -35,3 +35,13 @@ Content-Type: application/json
     "bairro": "Algum bairro de lá"
   }
 }
+
+
+###
+GET localhost:8080/api/v1/loja/valorGastoTotal?cnpj=36.079.245/0001-01
+
+###
+GET localhost:8080/api/v1/loja/valorGastoPendente?cnpj=36.079.245/0001-01
+
+###
+GET localhost:8080/api/v1/loja/valorGastoDevolvido?cnpj=36.079.245/0001-01
