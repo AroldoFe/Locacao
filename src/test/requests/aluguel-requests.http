@@ -1,0 +1,81 @@
+###
+GET localhost:8080/api/v1/aluguel/cliente?cpf=927.020.600-99
+
+###
+GET localhost:8080/api/v1/aluguel/clienteNaoDevolvido?cpf=927.020.600-99
+
+###
+GET localhost:8080/api/v1/aluguel/loja?cnpj=36.079.245/0001-01
+
+###
+GET localhost:8080/api/v1/aluguel/lojaNaoDevolvidos?cnpj=36.079.245/0001-01
+
+###
+POST localhost:8080/api/v1/aluguel/alugar
+Content-Type: application/json
+
+{
+  "id": "6080cd544607b528ef100c5d",
+  "cliente": {
+    "id": "607f2b72e135792244fca76a",
+    "nome": "Aroldo Felix",
+    "cpf": "927.020.600-99",
+    "dataNascimento": "1997-11-26T18:52:19.187+00:00",
+    "dataCriacao": "2021-04-20T19:33:28.380+00:00",
+    "dataUltimaEdicao": "2021-04-20T19:33:28.380+00:00",
+    "endereco": {
+      "cep": "59149-366",
+      "logradouro": "Rua Filipinas de Maceio",
+      "numero": "148",
+      "uf": "RN",
+      "cidade": "Macaíba",
+      "bairro": "Algum bairro de lá"
+    }
+  },
+  "loja": {
+    "id": "607f5225c55a3766adc0677d",
+    "nome": "Alecrim Fantasias",
+    "cnpj": "36.079.245/0001-01",
+    "dataCriacao": "2021-04-20T22:13:56.942+00:00",
+    "dataUltimaEdicao": "2021-04-20T22:13:57.074+00:00",
+    "localizacao": {
+      "type": "Point",
+      "coordinates": [
+        5.554124,
+        -32.48544
+      ]
+    },
+    "endereco": {
+      "cep": "59149-366",
+      "logradouro": "Rua Filipinas de Maceio",
+      "numero": "148",
+      "uf": "RN",
+      "cidade": "Macaíba",
+      "bairro": "Algum bairro de lá"
+    }
+  },
+  "fantasia": {
+    "id": "607f55544958d820ab5a156b",
+    "descricao": "Batman",
+    "tamanho": "G",
+    "classificacao": "ADULTO",
+    "dataCriado": "2021-04-20T22:27:32.408+00:00",
+    "dataUltimaEdicao": "2021-04-20T22:27:32.409+00:00"
+  },
+  "situacaoPagamento": "ABERTO",
+  "pagamento": "CREDITO_PARCELADO",
+  "valor": 100.00,
+  "total": 0,
+  "dataAluguel": "2021-04-20T21:52:00.0000",
+  "dataMaximaDevolucao": "2021-04-28T21:52:00.0000",
+  "dataDevolucao": ""
+}
+
+###
+POST localhost:8080/api/v1/aluguel/devolucao
+Content-Type: application/json
+
+{
+  "idAluguel": "6080cd544607b528ef100c5d",
+  "dataDevolucao": "2021-04-25T21:52:00.0000"
+}

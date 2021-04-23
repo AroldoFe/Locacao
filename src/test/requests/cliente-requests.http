@@ -1,14 +1,14 @@
 ###
-GET 192.168.0.107:9000/api/v1/cliente
+GET localhost:8080/api/v1/cliente
 
 ###
-GET 192.168.0.107:9000/api/v1/cliente/607f2b72e135792244fca76a
+GET localhost:8080/api/v1/cliente/607f2b72e135792244fca76a
 
 ###
-GET 192.168.0.107:9000/api/v1/cliente/cpf?cpf=927.020.600-99
+GET localhost:8080/api/v1/cliente/cpf?cpf=927.020.600-99
 
 ###
-POST 192.168.0.107:9000/api/v1/cliente
+POST localhost:8080/api/v1/cliente
 Content-Type: application/json
 
 {
@@ -27,3 +27,12 @@ Content-Type: application/json
     "bairro": "Algum bairro de lá"
   }
 }
+
+###
+GET localhost:8080/api/v1/cliente/valorGastoTotal?cpf=927.020.600-99
+
+###
+GET localhost:8080/api/v1/cliente/valorGastoPendente?cpf=927.020.600-99
+
+###
+GET localhost:8080/api/v1/cliente/valorGastoDevolvido?cpf=927.020.600-99
