@@ -1,13 +1,13 @@
 package br.ufrn.imd.locacao.Locacao.controller;
 
 import br.ufrn.imd.locacao.Locacao.domain.Cliente;
-import br.ufrn.imd.locacao.Locacao.domain.Loja;
 import br.ufrn.imd.locacao.Locacao.exception.BusinessRuleException;
 import br.ufrn.imd.locacao.Locacao.service.AluguelService;
 import br.ufrn.imd.locacao.Locacao.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,17 +40,23 @@ public class ClienteRestController {
     }
 
     @GetMapping("/valorGastoTotal")
-    public Map<Loja, Double> valorGastoTotal(@RequestParam("cpf") String cpf) {
-        return this.aluguelService.valorGastoTotalDoCliente(cpf);
+    public Map<String, Double> valorGastoTotal(@RequestParam("cpf") String cpf) {
+        Map<String, Double> valorGastoPorLoja = new HashMap<>();
+        this.aluguelService.valorGastoTotalDoCliente(cpf).forEach((key, value) -> valorGastoPorLoja.put(key.getNome(), value));
+        return valorGastoPorLoja;
     }
 
     @GetMapping("/valorGastoPendente")
-    public Map<Loja, Double> valorGastoPendente(@RequestParam("cpf") String cpf) {
-        return this.aluguelService.valorGastoPendenteDoCliente(cpf);
+    public Map<String, Double> valorGastoPendente(@RequestParam("cpf") String cpf) {
+        Map<String, Double> valorPendente = new HashMap<>();
+        this.aluguelService.valorGastoPendenteDoCliente(cpf).forEach((key, value) -> valorPendente.put(key.getNome(), value));
+        return valorPendente;
     }
 
     @GetMapping("/valorGastoDevolvido")
-    public Map<Loja, Double> valorGastoDevolvido(@RequestParam("cpf") String cpf) {
-        return this.aluguelService.valorGastoDevolvidoDoCliente(cpf);
+    public Map<String, Double> valorGastoDevolvido(@RequestParam("cpf") String cpf) {
+        HashMap<String, Double> valorDevolvido = new HashMap<>();
+        this.aluguelService.valorGastoDevolvidoDoCliente(cpf).forEach((key, value) -> valorDevolvido.put(key.getNome(), value));
+        return valorDevolvido;
     }
 }

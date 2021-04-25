@@ -40,5 +40,5 @@ public interface AluguelRepository extends MongoRepository<Aluguel, String> {
 
     List<Aluguel> findAllByClienteAndDataDevolucaoIsNotNullOrderByDataAluguel(Cliente cliente);
 
-    List<Aluguel> findAllByFantasiaAndLojaAndDataDevolucaoIsNotNull(Fantasia fantasia, Loja loja);
+    List<Aluguel> findAllByFantasiaAndLojaAndDataDevolucaoIsNull(Fantasia fantasia, Loja loja);
 }

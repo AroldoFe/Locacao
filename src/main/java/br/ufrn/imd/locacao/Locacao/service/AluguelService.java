@@ -101,7 +101,7 @@ public class AluguelService {
             throw new BusinessRuleException("Não existe essa fantasia na loja");
         }
 
-        if (!this.aluguelRepository.findAllByFantasiaAndLojaAndDataDevolucaoIsNotNull(
+        if (!this.aluguelRepository.findAllByFantasiaAndLojaAndDataDevolucaoIsNull(
                 aluguel.getFantasia(),
                 aluguel.getLoja()).isEmpty()
         ) {
@@ -110,9 +110,7 @@ public class AluguelService {
 
         this.validarAluguel(aluguel);
         aluguel.setDataDevolucao(null);
-        aluguel.setTotal(Double.valueOf(new DecimalFormat("#.##")
-                .format(aluguel.getValor() * (1 + aluguel.getPagamento().getJuros())))
-        );
+        aluguel.setTotal(aluguel.getValor() * (1 + aluguel.getPagamento().getJuros()));
 
         return this.aluguelRepository.save(aluguel);
     }
@@ -137,7 +135,7 @@ public class AluguelService {
             aluguel.setTotal(aluguel.getTotal() + (aluguel.getValor() * (qtdDiasDiferencaJuros * 0.1)));
         }
 
-        aluguel.setTotal(Double.valueOf(new DecimalFormat("#.##").format(aluguel.getTotal())));
+        aluguel.setTotal(aluguel.getTotal());
 
         aluguel.setDataDevolucao(devolucaoDTO.getDataDevolucao());
 
